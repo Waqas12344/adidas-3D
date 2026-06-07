@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { useMainStudioTextures } from "@/lib/useTextures";
 import { createMaterials } from "@/lib/material";
@@ -27,33 +27,49 @@ export function MainStudioModel() {
     keyof typeof studioTextures.main,
     THREE.MeshBasicMaterial
   >;
+  const [envMaterial, setEnvMaterial] = useState<THREE.MeshBasicMaterial>(mats.defaultStudio)
+
+  function enterHandler(material:THREE.MeshBasicMaterial){
+    document.body.style.cursor = "pointer";
+    setEnvMaterial(material)
+  }
+  function leaveHandler(){
+    document.body.style.cursor = "auto"; 
+  }
   return (
     <group dispose={null}>
       <mesh
         geometry={nodes.Environment.geometry}
-        material={mats.defaultStudio}
+        material={envMaterial}
       />
       <mesh
         geometry={nodes.Shirt_White.geometry}
         position={[0.65, 0.7, -0.45]}
         rotation={[0, Math.PI / 9, 0]}
         material={mats.whiteShirt}
+        onPointerEnter={()=>enterHandler(mats.whiteStudio)}
+        onPointerLeave={leaveHandler}
       />
       <mesh
         geometry={nodes.Shirt_Sport.geometry}
         position={[0, 0.7, 0]}
         material={mats.sportShirt}
+           onPointerEnter={()=>enterHandler(mats.redStudio)}
+        onPointerLeave={leaveHandler}
       />
       <mesh
         geometry={nodes.Shirt_Gray.geometry}
         position={[-0.65, 0.7, -0.45]}
         rotation={[0, -Math.PI / 9, 0]}
         material={mats.grayShirt}
+           onPointerEnter={()=>enterHandler(mats.grayStudio)}
+        onPointerLeave={leaveHandler}
       />
       <mesh
         geometry={nodes.Hitbox.geometry}
         scale={[2.52, 1, 1]}
         visible={false}
+        onPointerLeave={mats.defaultStudio}
       />
     </group>
   );
