@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import { Mulish } from "next/font/google";
 import "./globals.css";
+import ViewCanvas from "@/components/ViewCanvas";
 
- const mulish = Mulish({
-  subsets:["cyrillic"]
- })
+const mulish = Mulish({
+  subsets: ["cyrillic"],
+});
 
 export const metadata: Metadata = {
   title: "adidas",
-  description: "Foot Locker and adidas Originals Latest collection breaks new ground",
+  description:
+    "Foot Locker and adidas Originals Latest collection breaks new ground",
 };
 
 export default function RootLayout({
@@ -17,11 +19,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${mulish.className}  h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${mulish.className}  h-full antialiased`}>
+      <body className="min-h-full flex flex-col">
+        <ViewCanvas />
+        {children}
+      </body>
     </html>
   );
 }
