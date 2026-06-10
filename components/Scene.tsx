@@ -1,9 +1,9 @@
 import { ShirtType } from "@/lib/textures";
-import { View } from "@react-three/drei";
-import React from "react";
+import { View } from "@react-three/drei"; 
 import { FirstWhiteModel } from "./FirstWhiteModel";
 import { FirstGrayModel } from "./FirstGrayModel";
-import { FirstSportModel } from "./FirstSportModel";
+import { FirstSportModel } from "./FirstSportModel"; 
+import { SecondModel } from "./SecondModel";
 
 type Props = {
   shirtType: ShirtType;
@@ -19,10 +19,13 @@ const Scene = ({shirtType}: Props) => {
           {shirtType === "sport" && <FirstSportModel />}
         </View>
       </section>
-      {/* <section id="second-section" className="h-screen">
-        <View className="w-dvw h-dvh"></View>
+      <section id="second-section" className="h-screen">
+        <View className="w-dvw h-dvh">
+          <SecondModel shirtType={shirtType} />
+
+        </View>
       </section>
-      <section id="thied-section" className="h-screen">
+      {/* <section id="thied-section" className="h-screen">
         <View className="w-dvw h-dvh"></View>
       </section> */}
     </main>
