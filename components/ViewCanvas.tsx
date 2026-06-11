@@ -1,6 +1,6 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { View } from "@react-three/drei";
+import { OrbitControls, View } from "@react-three/drei";
 import Rig from "./Rig";
 import { useEffect, useState } from "react";
 
@@ -18,7 +18,8 @@ const ViewCanvas = () => {
       eventPrefix="client"
     >
       <View.Port />
-      <Rig />
+      <OrbitControls/>
+      {/* <Rig /> */}
     </Canvas>
   );
 };
