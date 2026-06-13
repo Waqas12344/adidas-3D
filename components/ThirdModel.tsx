@@ -1,21 +1,39 @@
 import { shirtColors } from "@/lib/colors";
 import { ShirtType, TextureKey } from "@/lib/textures";
-import { useShirtEnvCube, useShirtSectionTextures, useShirtVideoTexture } from "@/lib/useTextures";
-import { Environment, MeshReflectorMaterial } from "@react-three/drei";
+import {
+  useShirtEnvCube,
+  useShirtSectionTextures,
+  useShirtVideoTexture,
+} from "@/lib/useTextures";
+import { MeshReflectorMaterial, Text } from "@react-three/drei";
+import { ThreeEvent } from "@react-three/fiber";
+import { useCallback } from "react";
+import { useMediaQuery } from "react-responsive";
 import * as THREE from "three";
+
 const ThirdModel = ({ shirtType }: { shirtType: ShirtType }) => {
-  const textures = useShirtSectionTextures(shirtType, "third") as Record<
+  const isMobile = useMediaQuery({ maxWidth: 1024 });
+  const textures = useShirtSectionTextures(shirtType, "third", false) as Record<
     TextureKey<typeof shirtType, "third">,
     THREE.Texture
   >;
 
   const envMap = useShirtEnvCube(shirtType);
-const video = useShirtVideoTexture(shirtType);
+  const video = useShirtVideoTexture(shirtType);
   const getWallColor = () => shirtColors[shirtType]?.wall ?? "white";
+  const getTextColor = () => shirtColors[shirtType]?.text ?? "black";
 
+  const handleButtonClick = useCallback((e: ThreeEvent<MouseEvent>) => {
+    e.stopPropagation();
+    window.open("https://google.com", "_blank");
+  }, []);
   return (
     <group>
-      <mesh scale={0.1} rotation-y={-Math.PI / 2} position={[0.2, 0.65, 0]}>
+        <mesh
+          scale={isMobile ? 0.06 : 0.1}
+          rotation-y={-Math.PI / 6}
+          position={isMobile ? [0, 0.45, 0] : [0.2, 0.65, 0]}
+        >
         <planeGeometry args={[16, 9]} />
         <meshBasicMaterial map={video} />
       </mesh>
@@ -42,6 +60,43 @@ const video = useShirtVideoTexture(shirtType);
         <planeGeometry args={[10, 10]} />
         <meshBasicMaterial color={getWallColor()} map={textures.overlay} />
       </mesh>
+      <group position={[-0.8, 0.7, 0]} rotation={[0, Math.PI / 9, 0]}>
+        {/* icon  */}
+        <mesh position={[0, 0.1, 0]}>
+          <planeGeometry args={[0.5, 0.2]} />
+          <meshBasicMaterial
+            map={textures.icon}
+            color={getTextColor()}
+            transparent
+          />
+        </mesh>
+        {/* button  */}
+        <group
+          onClick={handleButtonClick}
+          onPointerEnter={() => {
+            document.body.style.cursor = "pointer";
+          }}
+          onPointerLeave={() => {
+            document.body.style.cursor = "auto";
+          }}
+        >
+          <mesh>
+            <boxGeometry args={[0.5, 0.12, 0.02]} />
+            <meshBasicMaterial color={getTextColor()} />
+          </mesh>
+          <Text
+            fontSize={0.035}
+            anchorX={"center"}
+            anchorY={"middle"}
+            position={[0, 0, 0.03]}
+          >
+            SHOP THE COLLECTION
+            <meshBasicMaterial
+              color={getTextColor() === "black" ? "white" : "black"}
+            />
+          </Text>
+        </group>
+      </group>
     </group>
   );
 };

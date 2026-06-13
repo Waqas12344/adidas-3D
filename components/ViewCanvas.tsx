@@ -18,8 +18,8 @@ const ViewCanvas = () => {
       eventPrefix="client"
     >
       <View.Port />
-      <OrbitControls/>
-      {/* <Rig /> */}
+      {/* <OrbitControls/> */}
+      <Rig />
     </Canvas>
   );
 };
