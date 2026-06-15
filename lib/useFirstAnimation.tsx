@@ -18,7 +18,7 @@ const useFirstAnimation = (
           end: "bottom top",
           scrub: 1,
           pin: true,
-          // markers: true,
+          markers: true,
         },
       })
       .to(groupRef.current.position, { y: 1.5 })

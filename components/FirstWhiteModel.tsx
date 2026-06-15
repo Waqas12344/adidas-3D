@@ -5,6 +5,7 @@ import { createMaterials } from "@/lib/material";
 import { TextureKey } from "@/lib/textures";
 import { useRef } from "react";
 import Masking from "./Masking";
+import useFirstAnimation from "@/lib/useFirstAnimation";
 
 type GLTFResult = {
   nodes: {
@@ -19,16 +20,17 @@ export function FirstWhiteModel() {
   const stencil = useMask(1);
   const shirtRef = useRef<THREE.Mesh>(null);
  const maskRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
   const textures = useShirtSectionTextures("white", "first");
   const mats = createMaterials(textures,stencil) as Record<
     TextureKey<"white", "first">,
     THREE.MeshBasicMaterial
   >;
-
+  useFirstAnimation(groupRef, shirtRef, maskRef);
   return (
 <group>
   <Masking ref={maskRef} />
-      <group dispose={null}>
+      <group ref={groupRef} dispose={null}>
       <mesh geometry={nodes.DJ_Table.geometry} material={mats.dj} />
       <mesh geometry={nodes.Speakers.geometry} material={mats.speakers} />
       <mesh geometry={nodes.LED_Cube_White.geometry} material={mats.studio} />

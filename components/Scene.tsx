@@ -5,10 +5,14 @@ import { FirstGrayModel } from "./FirstGrayModel";
 import { FirstSportModel } from "./FirstSportModel"; 
 import { SecondModel } from "./SecondModel";
 import ThirdModel from "./ThirdModel";
+import { ScrollTrigger } from "gsap/all";
+import gsap from "gsap";
 
 type Props = {
   shirtType: ShirtType;
 };
+
+gsap.registerPlugin(ScrollTrigger)
 
 const Scene = ({shirtType}: Props) => {
   return (

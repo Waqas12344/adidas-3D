@@ -3,8 +3,11 @@ import React, { useRef } from "react";
 import { useGLTF, useMask } from "@react-three/drei";
 import { useShirtSectionTextures } from "@/lib/useTextures";
 import { createMaterials } from "@/lib/material";
-import { TextureKey } from "@/lib/textures";  
-import Masking from "./Masking"; 
+import { TextureKey } from "@/lib/textures";
+import Masking from "./Masking";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import useFirstAnimation from "@/lib/useFirstAnimation";
 
 type GLTFResult = {
   nodes: {
@@ -13,7 +16,7 @@ type GLTFResult = {
 };
 export function FirstGrayModel() {
   const { nodes } = useGLTF(
-    "/models/gray/GrayStudio.glb"
+    "/models/gray/GrayStudio.glb",
   ) as unknown as GLTFResult;
   const stencil = useMask(1);
   const shirtRef = useRef<THREE.Mesh>(null);
@@ -24,7 +27,8 @@ export function FirstGrayModel() {
     TextureKey<"gray", "first">,
     THREE.MeshBasicMaterial
   >;
- 
+
+ useFirstAnimation(groupRef, shirtRef, maskRef);
 
   return (
     <group>
@@ -43,4 +47,3 @@ export function FirstGrayModel() {
     </group>
   );
 }
-
