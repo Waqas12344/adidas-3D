@@ -60,7 +60,10 @@ const ThirdModel = ({ shirtType }: { shirtType: ShirtType }) => {
         <planeGeometry args={[10, 10]} />
         <meshBasicMaterial color={getWallColor()} map={textures.overlay} />
       </mesh>
-      <group position={[-0.8, 0.7, 0]} rotation={[0, Math.PI / 9, 0]}>
+       <group
+          position={isMobile ? [0, 0.9, 0] : [-0.8, 0.7, 0]}
+          rotation={isMobile ? [0, -Math.PI / 9, 0] : [0, Math.PI / 9, 0]}
+        >
         {/* icon  */}
         <mesh position={[0, 0.1, 0]}>
           <planeGeometry args={[0.5, 0.2]} />

@@ -1,10 +1,11 @@
 import * as THREE from "three";
-import { useGLTF, useMask } from "@react-three/drei";
+import { Mask, useGLTF, useMask } from "@react-three/drei";
 import { useShirtSectionTextures } from "@/lib/useTextures";
 import { createMaterials } from "@/lib/material";
 import { TextureKey } from "@/lib/textures";
 import Masking from "./Masking";
 import { useRef } from "react"; 
+import { useThree } from "@react-three/fiber";
 
 type GLTFResult = {
   nodes: {
@@ -16,6 +17,7 @@ export function FirstSportModel() {
     "/models/sport/SportStudio.glb"
   ) as unknown as GLTFResult;
 
+  const {width,height} = useThree((state)=>state.viewport);
   const stencil = useMask(1);
 
   const shirtRef = useRef<THREE.Mesh>(null);
@@ -28,7 +30,9 @@ export function FirstSportModel() {
     THREE.MeshBasicMaterial
   >; 
   return (
-    <group>
+   <group>
+     <Masking ref={maskRef} />
+     <group>
       <Masking ref={maskRef} />
       <group ref={groupRef} dispose={null}>
         <mesh
@@ -47,6 +51,7 @@ export function FirstSportModel() {
         />
       </group>
     </group>
+   </group>
   );
 }
 

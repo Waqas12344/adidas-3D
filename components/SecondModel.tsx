@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useMask } from "@react-three/drei";
 import { ShirtType, TextureKey } from "@/lib/textures";
 import { useShirtSectionTextures } from "@/lib/useTextures";
 import { createMaterials } from "@/lib/material";
@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { shirtColors } from "@/lib/colors";
+import { useMediaQuery } from "react-responsive";
 
 type GLTFResult = {
   nodes: {
@@ -18,12 +19,15 @@ export function SecondModel({ shirtType }: { shirtType: ShirtType }) {
   const { nodes } = useGLTF(
     "/models/ShirtScrolling.glb",
   ) as unknown as GLTFResult;
+
+  const stencil = useMask(1,true)
   const textures = useShirtSectionTextures(shirtType, "second");
-  const mats = createMaterials(textures) as Record<
+  const mats = createMaterials(textures,stencil) as Record<
     TextureKey<typeof shirtType, "second">,
     THREE.MeshBasicMaterial
   >;
 
+   const isMobile = useMediaQuery({ maxWidth: 768 });
   const marqueeText1Ref = useRef<THREE.Mesh>(null)
   const marqueeText1DupRef = useRef<THREE.Mesh>(null)
   const marqueeText2Ref = useRef<THREE.Mesh>(null)
@@ -34,13 +38,15 @@ export function SecondModel({ shirtType }: { shirtType: ShirtType }) {
   const textsMaterial = new THREE.MeshBasicMaterial({
     color:getTextColor(),
     transparent: true,
-    opacity:1
+    opacity:1,
+    ...stencil,
   })
 
     const marqueeMaterial = new THREE.MeshBasicMaterial({
     color:getTextColor(),
     transparent: true,
-    opacity:1
+    opacity:1,
+     ...stencil,
   })
 
   const TOP_BOTTOM_TEXT_WIDTH = 5.7;
@@ -76,7 +82,7 @@ export function SecondModel({ shirtType }: { shirtType: ShirtType }) {
     })
   })
   return (
-    <group dispose={null}>
+    <group dispose={null}  scale={isMobile ? 1.5 : 2.2}>
       <mesh geometry={nodes.Shirt.geometry} material={mats.shirt} />
       <mesh geometry={nodes.Sphere_ENV.geometry} material={mats.sphere} />
 
