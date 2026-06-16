@@ -138,7 +138,7 @@ const groupRef = useRef<THREE.Group>(null);
       <mesh geometry={nodes.Shirt.geometry} material={mats.shirt} />
       <mesh geometry={nodes.Sphere_ENV.geometry} material={mats.sphere} />
 
-      <group>
+      <group ref={textsRef}>
         {Object.entries(nodes)
           .filter(([key]) => key.startsWith("Texts"))
           .map(([key, node]) => (
