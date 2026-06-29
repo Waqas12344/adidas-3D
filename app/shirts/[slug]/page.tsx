@@ -7,7 +7,7 @@ import { notFound, useParams } from 'next/navigation'
 const page = () => {
   const params = useParams();
   const shirtType = params?.slug as ShirtType;
-  if(!shirtType) return notFound();
+  if(!shirtType) notFound();
   return <>
   <Scene shirtType={shirtType} />
   <ScrollIndicator shirtType={shirtType} />
